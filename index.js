@@ -86,17 +86,64 @@ const addDepartment = () => {
 }
 
 const addRole = () => {
-    inquirer.prompt({
-        type: "input",
-        message: "What role would you like to add?",
-        // Need to add relevent fields to relate to the tables???
-        name: "roleTitle"
-    }).then(userInput => {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What role would you like to add?",
+            name: "roleTitle"
+        },
+        {
+            type: "input",
+            message: "How much is the salary for this role?",
+            name: "roleSalary"
+        },
+        {
+            type: "number",
+            message: "What is the department number for this role?",
+            name: "roleDept"
+    }]).then(userInput => {
         connection.query("INSERT INTO ROLE SET ?", {
-            name:userInput.roleTitle
+            title:userInput.roleTitle,
+            salary:userInput.roleSalary,
+            department_id:userInput.roleDept
         }, function(error, data){
             if(error)throw error
             console.log("The new role has been added")
+            mainMenu()
+        })
+    })
+}
+
+const addEmployee = () => {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the employees first name?",
+            name: "firstName"
+        },
+        {
+            type: "input",
+            message: "What is the employees last name?",
+            name: "lastName"
+        },
+        {
+            type: "number",
+            message: "What is the role id number for this employee?",
+            name: "idNumber"
+        },
+        {
+            type: "number",
+            message: "Enter the assigned managers id number",
+            name: "managerId"
+    }]).then(userInput => {
+        connection.query("INSERT INTO EMPLOYEE SET ?", {
+            first_name:userInput.firstName,
+            last_name:userInput.lastName,
+            role_id:userInput.idNumber,
+            manager_id:userInput.managerId
+        }, function(error, data){
+            if(error)throw error
+            console.log("Your employee has been added")
             mainMenu()
         })
     })
