@@ -16,6 +16,9 @@ connection.connect(function(error) {
 })
 // creates the main menu
 const mainMenu = () => {
+    console.log("---------------------------------");
+    console.log("---     Employee Database     ---");
+    console.log("---------------------------------");
     inquirer.prompt ({
         type: "list",
         message: "Please choose a selection:",
