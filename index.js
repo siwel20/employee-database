@@ -19,7 +19,7 @@ const mainMenu = () => {
     inquirer.prompt ({
         type: "list",
         message: "Please choose a selection:",
-        choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee role"],
+        choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "updated an employee role"],
         name: "action"
     }).then(userInput => {
         switch(userInput.action){
@@ -144,6 +144,26 @@ const addEmployee = () => {
         }, function(error, data){
             if(error)throw error
             console.log("Your employee has been added")
+            mainMenu()
+        })
+    })
+}
+
+const updateRole = () => {
+    inquirer.prompt([
+        {
+            type: "number",
+            message: "What is the employees id you would like to update?",
+            name: "employeeId"
+        },
+        {
+            type: "number",
+            message: "What is the new role id?",
+            name: "newRole"
+        }
+    ]).then(userInput => {
+        connection.query("update employee set role_id = ?  where id = ?", [userInput.newRole, userInput.employeeId], function(error) {
+            console.log("Employees role has been updated!")
             mainMenu()
         })
     })
